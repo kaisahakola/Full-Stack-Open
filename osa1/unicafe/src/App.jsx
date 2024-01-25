@@ -21,15 +21,21 @@ const Statistics = ({ statistics }) => {
   } else {
     return (
       <>
-        <p>good {good}</p>
-        <p>neutral {neutral}</p>
-        <p>bad {bad}</p>
-        <p>all {all}</p>
-        <p>avarage {avarage}</p>
-        <p>positive {positive}</p>
+        <StatisticLine text='good' value={good} />
+        <StatisticLine text='neutral' value={neutral} />
+        <StatisticLine text='bad' value={bad} />
+        <StatisticLine text='all' value={all} />
+        <StatisticLine text='avarage' value={avarage} />
+        <StatisticLine text='positive' value={positive} />
       </>
     )
   }
+}
+
+const StatisticLine = ({ text, value }) => {
+  return (
+    <p>{text} {value}</p>
+  )
 }
 
 const App = () => {
@@ -69,10 +75,6 @@ const App = () => {
   }
 
   const handleAvarage = (newGood, newBad, newAll) => {
-    console.log("good: ", newGood)
-    console.log("bad: ", newBad)
-    console.log("all: ", newAll)
-
     const value = newGood * 1 + newBad * -1
     // Using ternary operator to check if all is 0
     setAvarage(all === 0 ? 0 : value / newAll)
