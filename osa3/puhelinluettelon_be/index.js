@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 var morgan = require('morgan')
 const cors = require('cors')
+const Person = require('./models/person')
 
 app.use(cors())
 app.use(express.json())
@@ -13,7 +14,7 @@ morgan.token('data', function (req, res) {
 
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :data'))
 
-let persons = [
+let people = [
     {
         id: 1,
         name: "Arto Hellas",
@@ -37,7 +38,9 @@ let persons = [
 ]
 
 app.get('/api/persons', (request, response) => {
-    response.json(persons)
+    Person.find({}).then(people => {
+        response.json(people)
+    })
 })
 
 app.get('/info', (request, response) => {
@@ -53,47 +56,43 @@ app.get('/info', (request, response) => {
 })
 
 app.get('/api/persons/:id', (request, response) => {
-    const id = Number(request.params.id)
-    const person = persons.find(p => p.id === id)
-
-    if (person) {
+    Person.findById(request.params.id).then(person => {
         response.json(person)
-    } else {
-        response.status(404).end()
-    }
+    })
 })
 
 app.delete('/api/persons/:id', (request, response) => {
     const id = Number(request.params.id)
-    persons = persons.filter(p => p.id !== id)
+    people = people.filter(p => p.id !== id)
 
     response.status(204).end()
 })
 
-app.post('/api/persons', (request, response) => {
+app.post('/api/persons', async (request, response) => {
     const body = request.body
 
-    if (!body.name || !body.number) {
+    if (body.name === undefined || body.number === undefined) {
         return response.status(400).json({
             error: "name or number missing"
         })
     }
 
-    if (persons.find(p => p.name === body.name)) {
+    const personAlreadyExists = await Person.findOne({ name: body.name })
+
+    if (personAlreadyExists) {
         return response.status(400).json({
             error: "name must be unique"
         })
     }
 
-    const person = {
+    const person = new Person ({
         name: body.name,
         number: body.number,
-        id: Math.random() * 101
-    }
+    })
 
-    persons = persons.concat(person)
-
-    response.json(person)
+    person.save().then(savedPerson => {
+        response.json(savedPerson)
+    })
 })
 
 const PORT = process.env.PORT || 3002
