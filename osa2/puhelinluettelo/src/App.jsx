@@ -71,6 +71,16 @@ const App = () => {
             setIsMessageVisible(false)
           }, 5000)
         })
+        .catch(error => {
+          if (error.response && error.response.status === 400) {
+            setErrorMessage(error.response.data.error)
+            setIsErrorVisible(true)
+            setTimeout(() => {
+              setErrorMessage(null)
+              setIsErrorVisible(false)
+            }, 5000)
+          }
+        })
     }
 
     setNewName('')
