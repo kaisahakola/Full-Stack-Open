@@ -49,6 +49,7 @@ app.get('/api/persons/:id', (request, response, next) => {
 app.delete('/api/persons/:id', (request, response, next) => {
     Person.findByIdAndDelete(request.params.id)
         .then(result => {
+            console.log(result)
             response.status(204).end()
         })
         .catch(error => next(error))
@@ -59,7 +60,7 @@ app.post('/api/persons', async (request, response, next) => {
 
     if (body.name === undefined || body.number === undefined) {
         return response.status(400).json({
-            error: "name or number missing"
+            error: 'name or number missing'
         })
     }
 
