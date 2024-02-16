@@ -19,8 +19,8 @@ describe('api', () => {
     })
 
     test('all blogs are returned', async () => {
-        const response = await api.get('/api/blogs')
-        expect(response.body).toHaveLength(helper.initialBlogs.length)
+        const response = await helper.blogsInDb()
+        expect(response).toHaveLength(helper.initialBlogs.length)
     })
 
     test('a new blog can be added', async () => {
@@ -79,8 +79,7 @@ describe('api', () => {
             .expect(201)
             .expect('Content-Type', /application\/json/)
 
-        const response = await api.get('/api/blogs')
-        const blogsAtEnd = response.body
+        const blogsAtEnd = await helper.blogsInDb()
         const createdBlog = blogsAtEnd.find(blog => blog.title === newBlog.title)
 
         expect(createdBlog.likes).toBe(0)
@@ -97,6 +96,42 @@ describe('api', () => {
             .post('/api/blogs')
             .send(newBlog)
             .expect(400)
+    })
+
+    test('a blog can be deleted', async () => {
+        const blogsAtStart = await helper.blogsInDb()
+        const blogToDelete = blogsAtStart[0]
+
+        await api
+            .delete(`/api/blogs/${blogToDelete.id}`)
+            .expect(204)
+
+        const blogsAtEnd = await helper.blogsInDb()
+        expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length - 1)
+
+        const titles = blogsAtEnd.map(b => b.title)
+        expect(titles).not.toContain(blogToDelete.title)
+    })
+
+    test('a blog can be updated', async () => {
+        const blogsAtStart = await helper.blogsInDb()
+        const blogToUpdate = blogsAtStart[0]
+
+        const updatedBlog = {
+            title: 'Updated blog',
+            author: 'Updated Author',
+            url: 'url',
+            likes: 100
+        }
+
+        await api
+            .put(`/api/blogs/${blogToUpdate.id}`)
+            .send(updatedBlog)
+            .expect(200)
+
+        const blogsAtEnd = await helper.blogsInDb()
+        const titles = blogsAtEnd.map(b => b.title)
+        expect(titles).toContain(updatedBlog.title)
     })
 })
 
