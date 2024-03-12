@@ -1,0 +1,27 @@
+/* eslint-disable react/prop-types */
+const LoginForm = (props) => (
+    <form onSubmit={props.handleLogin}>
+        <div>
+            username
+            <input 
+                type="text" 
+                value={props.username} 
+                name="username" 
+                onChange={({target}) => {props.setUsername(target.value)}} 
+            />
+        </div>
+
+        <div>
+            password
+            <input 
+                type="text" 
+                value={props.password} 
+                name="password" 
+                onChange={({target}) => {props.setPassword(target.value)}} 
+            />
+        </div>
+        <button type='submit'>login</button>
+    </form>
+)
+
+export default LoginForm
