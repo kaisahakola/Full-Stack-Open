@@ -1,48 +1,71 @@
 /* eslint-disable react/prop-types */
-const BlogForm = (props) => (
-    <form onSubmit={props.addBlog}>
-        <div>
-            title
-            <input
-                type="text"
-                name="title"
-                value={props.newBlog.title}
-                onChange={props.handleBlogChange} 
-            />
-        </div>
+import { useState } from "react"
 
-        <div>
-            author
-            <input
-                type="text"
-                name="author"
-                value={props.newBlog.author}
-                onChange={props.handleBlogChange}
-            />
-        </div>
+const BlogForm = ({ createBlog }) => {
+    const [newBlog, setNewBlog] = useState({ title: '', author: '', url: '', likes: 0 })
 
-        <div>
-            url
-            <input 
-                type="text"
-                name="url"
-                value={props.newBlog.url}
-                onChange={props.handleBlogChange}
-            />
-        </div>
+    const addBlog = (event) => {
+        event.preventDefault()
+        createBlog({
+            title: newBlog.title,
+            author: newBlog.author,
+            url: newBlog.url,
+            likes: newBlog.likes
+        })
 
-        <div>
-            likes
-            <input 
-                type="number"
-                name="likes"
-                value={props.newBlog.likes}
-                onChange={props.handleBlogChange}
-            />
-        </div>
+        setNewBlog({ title: '', author: '', url: '', likes: 0 })
+    }
 
-        <button type="submit">add</button>
-    </form>
-)
+    const handleBlogChange = (event) => {
+        const { name, value } = event.target
+        setNewBlog({...newBlog, [name]: value})
+    }
+
+    return (
+        <form onSubmit={addBlog}>
+            <div>
+                title
+                <input
+                    type="text"
+                    name="title"
+                    value={newBlog.title}
+                    onChange={handleBlogChange} 
+                />
+            </div>
+
+            <div>
+                author
+                <input
+                    type="text"
+                    name="author"
+                    value={newBlog.author}
+                    onChange={handleBlogChange}
+                />
+            </div>
+
+            <div>
+                url
+                <input 
+                    type="text"
+                    name="url"
+                    value={newBlog.url}
+                    onChange={handleBlogChange}
+                />
+            </div>
+
+            <div>
+                likes
+                <input 
+                    type="number"
+                    name="likes"
+                    value={newBlog.likes}
+                    onChange={handleBlogChange}
+                />
+            </div>
+
+            <button type="submit">add</button>
+        </form>
+    )
+}
 
 export default BlogForm

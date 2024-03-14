@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 const ErrorMessage = ({ message, isVisible }) => {
 
     let visibility = ''

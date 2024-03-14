@@ -14,7 +14,7 @@ const LoginForm = (props) => (
         <div>
             password
             <input 
-                type="text" 
+                type="password" 
                 value={props.password} 
                 name="password" 
                 onChange={({target}) => {props.setPassword(target.value)}} 
