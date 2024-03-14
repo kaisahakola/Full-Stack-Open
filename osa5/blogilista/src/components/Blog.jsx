@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react"
+import { useState } from 'react'
 
 const Blog = ({ blog, likeTheBlog, deleteBlog }) => {
     const [visible, setVisible] = useState(false)

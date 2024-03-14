@@ -52,8 +52,8 @@ const App = () => {
             setTimeout(() => {
                 setSuccessMessage('')
                 setIsSuccessVisible(false)
-            }, 5000);
-            
+            }, 5000)
+
         } catch(error) {
             console.error(error)
 
@@ -63,12 +63,12 @@ const App = () => {
             setTimeout(() => {
                 setErrorMessage('')
                 setIsErrorVisible(false)
-            }, 5000);
+            }, 5000)
         }
     }
 
     const likeTheBlog = async (blog) => {
-        const updatedBlog = await blogService.update({...blog, likes: blog.likes + 1}, blog.id)
+        const updatedBlog = await blogService.update({ ...blog, likes: blog.likes + 1 }, blog.id)
         setBlogs(blogs.map(blog => blog.id !== updatedBlog.id ? blog : updatedBlog))
 
         const allBlogs = await blogService.getAll()
@@ -79,11 +79,11 @@ const App = () => {
         if (window.confirm(`Delete ${blog.title}?`)) {
             await blogService.deleteBlog(blog.id)
             setBlogs(blogs.filter(b => b.id !== blog.id))
-    
+
             const allBlogs = await blogService.getAll()
             setBlogs(allBlogs)
 
-            setSuccessMessage('Person deleted succesfully')
+            setSuccessMessage('Blog deleted succesfully')
             setIsSuccessVisible(true)
 
             setTimeout(() => {
@@ -97,7 +97,7 @@ const App = () => {
         event.preventDefault()
 
         try {
-            const user = await loginService.login({username, password})
+            const user = await loginService.login({ username, password })
 
             window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user))
 
@@ -129,13 +129,13 @@ const App = () => {
             <SuccessMessage message={successMessage} isVisible={isSuccessVisible} />
             <ErrorMessage message={errorMessage} isVisible={isErrorVisible} />
 
-            {!user && 
-                <LoginForm 
-                    handleLogin={handleLogin} 
-                    username={username} 
+            {!user &&
+                <LoginForm
+                    handleLogin={handleLogin}
+                    username={username}
                     password={password}
-                    setUsername={setUsername}
-                    setPassword={setPassword}
+                    handleUsernameChange={({ target }) => {setUsername(target.value)}}
+                    handlePasswordChange={({ target }) => {setPassword(target.value)}}
                 />}
 
             {user &&
@@ -147,7 +147,7 @@ const App = () => {
                         <Togglable buttonLabel="new blog" ref={blogFormRef}>
                             <BlogForm createBlog={addBlog} />
                         </Togglable>
-                        
+
                     </div>
 
                     <div>
@@ -155,10 +155,10 @@ const App = () => {
                         {blogs
                             .sort((a, b) => b.likes - a.likes)
                             .filter(blog => blog.user.username === user.username)
-                            .map(blog => 
-                                <Blog 
-                                    key={blog.id} 
-                                    blog={blog} 
+                            .map(blog =>
+                                <Blog
+                                    key={blog.id}
+                                    blog={blog}
                                     likeTheBlog={() => likeTheBlog(blog)}
                                     deleteBlog={() => deleteBlog(blog)}
                                 />

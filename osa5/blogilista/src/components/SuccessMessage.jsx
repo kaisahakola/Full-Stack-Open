@@ -1,4 +1,5 @@
-/* eslint-disable react/prop-types */
+import PropTypes from 'prop-types'
+
 const SuccessMessage = ({ message, isVisible }) => {
 
     let visibility = ''
@@ -13,11 +14,16 @@ const SuccessMessage = ({ message, isVisible }) => {
         return null
     } else {
         return (
-            <div className="successMessage" style={{display: visibility}}>
+            <div className="successMessage" style={{ display: visibility }}>
                 {message}
             </div>
         )
     }
+}
+
+SuccessMessage.PropTypes = {
+    message: PropTypes.string.isRequired,
+    isVisible: PropTypes.bool.isRequired
 }
 
 export default SuccessMessage

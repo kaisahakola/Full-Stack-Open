@@ -1,4 +1,5 @@
-/* eslint-disable react/prop-types */
+import PropTypes from 'prop-types'
+
 const ErrorMessage = ({ message, isVisible }) => {
 
     let visibility = ''
@@ -13,11 +14,16 @@ const ErrorMessage = ({ message, isVisible }) => {
         return null
     } else {
         return (
-            <div className="errorMessage" style={{display: visibility}}>
+            <div className="errorMessage" style={{ display: visibility }}>
                 {message}
             </div>
         )
     }
+}
+
+ErrorMessage.PropTypes = {
+    message: PropTypes.string.isRequired,
+    isVisible: PropTypes.bool.isRequired
 }
 
 export default ErrorMessage

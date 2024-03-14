@@ -1,5 +1,5 @@
-/* eslint-disable react/prop-types */
-import { useState } from "react"
+import { useState } from 'react'
+import PropTypes from 'prop-types'
 
 const BlogForm = ({ createBlog }) => {
     const [newBlog, setNewBlog] = useState({ title: '', author: '', url: '', likes: 0 })
@@ -18,7 +18,7 @@ const BlogForm = ({ createBlog }) => {
 
     const handleBlogChange = (event) => {
         const { name, value } = event.target
-        setNewBlog({...newBlog, [name]: value})
+        setNewBlog({ ...newBlog, [name]: value })
     }
 
     return (
@@ -29,7 +29,7 @@ const BlogForm = ({ createBlog }) => {
                     type="text"
                     name="title"
                     value={newBlog.title}
-                    onChange={handleBlogChange} 
+                    onChange={handleBlogChange}
                 />
             </div>
 
@@ -45,7 +45,7 @@ const BlogForm = ({ createBlog }) => {
 
             <div>
                 url
-                <input 
+                <input
                     type="text"
                     name="url"
                     value={newBlog.url}
@@ -55,7 +55,7 @@ const BlogForm = ({ createBlog }) => {
 
             <div>
                 likes
-                <input 
+                <input
                     type="number"
                     name="likes"
                     value={newBlog.likes}
@@ -66,6 +66,10 @@ const BlogForm = ({ createBlog }) => {
             <button type="submit">add</button>
         </form>
     )
+}
+
+BlogForm.PropTypes = {
+    createBlog: PropTypes.func.isRequired
 }
 
 export default BlogForm
