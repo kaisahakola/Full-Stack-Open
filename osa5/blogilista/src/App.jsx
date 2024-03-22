@@ -152,18 +152,20 @@ const App = () => {
 
                     <div>
                         <h2>blogs</h2>
-                        {blogs
-                            .sort((a, b) => b.likes - a.likes)
-                            .filter(blog => blog.user.username === user.username)
-                            .map(blog =>
-                                <Blog
-                                    key={blog.id}
-                                    blog={blog}
-                                    likeTheBlog={() => likeTheBlog(blog)}
-                                    deleteBlog={() => deleteBlog(blog)}
-                                />
-                            )
-                        }
+                        <div className='blogList'>
+                            {blogs
+                                .sort((a, b) => b.likes - a.likes)
+                                .filter(blog => blog.user.username === user.username)
+                                .map(blog =>
+                                    <Blog
+                                        key={blog.id}
+                                        blog={blog}
+                                        likeTheBlog={() => likeTheBlog(blog)}
+                                        deleteBlog={() => deleteBlog(blog)}
+                                    />
+                                )
+                            }
+                        </div>
                     </div>
                 </div>
             }
