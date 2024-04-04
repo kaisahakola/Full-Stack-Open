@@ -1,23 +1,34 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import { useState } from "react"
+import { useField } from "../hooks"
 
 const CreateNew = (props) => {
-    const [content, setContent] = useState('')
-    const [author, setAuthor] = useState('')
-    const [info, setInfo] = useState('')
+    const content = useField('text')
+    const author = useField('text')
+    const info = useField('text')
 
     const handleSubmit = (e) => {
         e.preventDefault()
+
+        if (!content.value || !author.value || !info.value) {
+            return;
+        }
+
         props.addNew({
-            content,
-            author,
-            info,
+            content: content.value,
+            author: author.value,
+            info: info.value,
             votes: 0
         })
-        setContent('')
-        setAuthor('')
-        setInfo('')
     }
+
+    const handleReset = () => {
+        content.reset()
+        author.reset()
+        info.reset()
+    }
+
+    const value = ({ reset, ...rest}) => rest
 
     return (
         <div>
@@ -25,17 +36,18 @@ const CreateNew = (props) => {
             <form onSubmit={handleSubmit}>
             <div>
                 content
-                <input name='content' value={content} onChange={(e) => setContent(e.target.value)} />
+                <input {...value(content)} />
             </div>
             <div>
                 author
-                <input name='author' value={author} onChange={(e) => setAuthor(e.target.value)} />
+                <input {...value(author)} />
             </div>
             <div>
                 url for more info
-                <input name='info' value={info} onChange={(e)=> setInfo(e.target.value)} />
+                <input {...value(info)} />
             </div>
-            <button>create</button>
+            <button type="submit">create</button>
+            <button onClick={handleReset}>reset</button>
             </form>
         </div>
     )
