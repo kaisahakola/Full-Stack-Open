@@ -7,7 +7,7 @@
     "start": "NODE_ENV=production node index.js",
     "dev": "NODE_ENV=development nodemon index.js",
     "test": "NODE_ENV=test jest --verbose --runInBand",
-    "build:ui": "rm -rf dist && cd ../../osa5/blogilista && npm run build && cp -r dist ../../osa4/blogilista",
+    "build:ui": "rm -rf dist && cd ../../osa7/blogilista && npm run build && cp -r dist ../../osa4/blogilista",
     "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push",
     "start:test": "NODE_ENV=test node index.js"
   },
