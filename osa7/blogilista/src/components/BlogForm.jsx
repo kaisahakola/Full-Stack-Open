@@ -1,6 +1,8 @@
 import { useDispatch } from 'react-redux'
 import { createBlog } from '../reducers/blogReducer'
 import { setNotification } from '../reducers/notificationReducer'
+import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button'
 
 const BlogForm = () => {
   const dispatch = useDispatch()
@@ -34,44 +36,54 @@ const BlogForm = () => {
   }
 
   return (
-    <form onSubmit={addBlog}>
-      <div>
-        title
-        <input
-          data-testid="title"
-          type="text"
-          name="title"
-          placeholder="title"
-        />
-      </div>
+    <div className="freeSpace">
+      <h4>Add new blog</h4>
+      <Form onSubmit={addBlog}>
+        <Form.Group className="mb-3">
+          <Form.Label>Title</Form.Label>
+          <Form.Control
+            data-testid="title"
+            type="text"
+            name="title"
+            placeholder="Enter title"
+          />
+        </Form.Group>
 
-      <div>
-        author
-        <input
-          data-testid="author"
-          type="text"
-          name="author"
-          placeholder="author"
-        />
-      </div>
+        <Form.Group className="mb-3">
+          <Form.Label>Author</Form.Label>
+          <Form.Control
+            data-testid="author"
+            type="text"
+            name="author"
+            placeholder="Enter author"
+          />
+        </Form.Group>
 
-      <div>
-        url
-        <input data-testid="url" type="text" name="url" placeholder="url" />
-      </div>
+        <Form.Group className="mb-3">
+          <Form.Label>URL</Form.Label>
+          <Form.Control
+            data-testid="url"
+            type="text"
+            name="url"
+            placeholder="Enter URL"
+          />
+        </Form.Group>
 
-      <div>
-        likes
-        <input
-          data-testid="likes"
-          type="number"
-          name="likes"
-          placeholder="likes"
-        />
-      </div>
+        <Form.Group className="mb-3">
+          <Form.Label>Likes</Form.Label>
+          <Form.Control
+            data-testid="likes"
+            type="number"
+            name="likes"
+            placeholder="Enter likes"
+          />
+        </Form.Group>
 
-      <button type="submit">add</button>
-    </form>
+        <Button variant="primary" type="submit">
+          Add
+        </Button>
+      </Form>
+    </div>
   )
 }
 

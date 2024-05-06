@@ -1,6 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { login, setPassword, setUsername } from '../reducers/loginReducer'
 import { setNotification } from '../reducers/notificationReducer'
+import Button from 'react-bootstrap/Button'
+import Form from 'react-bootstrap/Form'
 
 const LoginForm = () => {
   const dispatch = useDispatch()
@@ -25,30 +27,37 @@ const LoginForm = () => {
   }
 
   return (
-    <form onSubmit={handleLogin}>
-      <div>
-        username
-        <input
-          data-testid="username"
-          type="text"
-          value={username}
-          name="username"
-          onChange={handleUsernameChange}
-        />
-      </div>
+    <div className="freeSpace">
+      <Form onSubmit={handleLogin}>
+        <Form.Group className="mb-3" controlId="formBasicUsername">
+          <Form.Label>Username</Form.Label>
+          <Form.Control
+            data-testid="username"
+            type="text"
+            value={username}
+            name="username"
+            onChange={handleUsernameChange}
+            placeholder="Enter username"
+          />
+        </Form.Group>
 
-      <div>
-        password
-        <input
-          data-testid="password"
-          type="password"
-          value={password}
-          name="password"
-          onChange={handlePasswordChange}
-        />
-      </div>
-      <button type="submit">login</button>
-    </form>
+        <Form.Group className="mb-3" controlId="formBasicPassword">
+          <Form.Label>Password</Form.Label>
+          <Form.Control
+            data-testid="password"
+            type="password"
+            value={password}
+            name="password"
+            onChange={handlePasswordChange}
+            placeholder="Password"
+          />
+        </Form.Group>
+
+        <Button variant="primary" type="submit">
+          Login
+        </Button>
+      </Form>
+    </div>
   )
 }
 

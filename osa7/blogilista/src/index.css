@@ -1,19 +1,17 @@
-.errorMessage {
-  color: red;
-  background: lightgrey;
-  font-size: 20px;
-  border-style: solid;
-  border-radius: 5px;
-  padding: 10px;
-  margin-bottom: 10px;
+.freeSpace {
+  margin-top: 20px;
 }
 
-.successMessage {
-  color: green;
-  background: lightgrey;
-  font-size: 20px;
-  border-style: solid;
-  border-radius: 5px;
-  padding: 10px;
-  margin-bottom: 10px;
+.page {
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.info {
+  margin: 0 auto;
+}
+
+.loginForm {
+  width: 50%;
+  margin: 0 auto;
 }
