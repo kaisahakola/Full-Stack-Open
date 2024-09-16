@@ -16,9 +16,9 @@ interface HoursAndTarget {
 const parseHours = (args: string[]): HoursAndTarget => {
   if (args.length < 4) throw new Error("Not enough arguments");
 
-  let slicedArgs = args.slice(2);
+  const slicedArgs = args.slice(2);
 
-  let argHours = slicedArgs.every((item) => !isNaN(Number(item)));
+  const argHours = slicedArgs.every((item) => !isNaN(Number(item)));
   if (argHours) {
     const numbArray = slicedArgs.map(Number);
     const hoursInArray = numbArray.slice(1);
@@ -31,7 +31,7 @@ const parseHours = (args: string[]): HoursAndTarget => {
   }
 };
 
-const calculateExercises = (
+export const calculateExercises = (
   exerciseHours: number[],
   targetHours: number
 ): Result => {
@@ -74,13 +74,15 @@ const calculateExercises = (
   };
 };
 
-try {
-  const { target, hours } = parseHours(process.argv);
-  console.log(calculateExercises(hours, target));
-} catch (error) {
-  let errorMessage = "Something bad happened.";
-  if (error instanceof Error) {
-    errorMessage += " Error: " + error.message;
+if (require.main === module) {
+  try {
+    const { target, hours } = parseHours(process.argv);
+    console.log(calculateExercises(hours, target));
+  } catch (error) {
+    let errorMessage = "Something bad happened.";
+    if (error instanceof Error) {
+      errorMessage += " Error: " + error.message;
+    }
+    console.log(errorMessage);
   }
-  console.log(errorMessage);
 }
