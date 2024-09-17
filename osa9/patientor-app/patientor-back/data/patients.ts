@@ -1,5 +1,5 @@
 import { Patients } from "../src/types";
-import toNewPatientData from "../src/utils";
+import { toNewPatientData } from "../src/utils";
 
 const data = [
   {
@@ -44,10 +44,10 @@ const data = [
   },
 ];
 
-const patienData: Patients[] = data.map((obj) => {
+const patientData: Patients[] = data.map((obj) => {
   const object = toNewPatientData(obj) as Patients;
   object.id = obj.id;
   return object;
 });
 
-export default patienData;
+export default patientData;
