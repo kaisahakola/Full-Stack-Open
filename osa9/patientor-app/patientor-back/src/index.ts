@@ -2,9 +2,15 @@ import express from "express";
 import path from "path";
 import diagnoseRouter from "./routes/diagnoses";
 import patientRouter from "./routes/patients";
+import cors from "cors";
 
 const app = express();
 
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+  })
+);
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "../../patientor-front/dist")));
 
