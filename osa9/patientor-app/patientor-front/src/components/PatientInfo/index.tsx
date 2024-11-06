@@ -5,6 +5,7 @@ import { Patient } from "../../types";
 import FemaleIcon from "@mui/icons-material/Female";
 import MaleIcon from "@mui/icons-material/Male";
 import TransgenderIcon from "@mui/icons-material/Transgender";
+import EntryDetails from "../EntryDetails";
 
 const PatientInfo = () => {
   const [patient, setPatient] = useState<Patient>();
@@ -15,15 +16,15 @@ const PatientInfo = () => {
       patienService
         .getById(id)
         .then((fetchedPatient) => setPatient(fetchedPatient))
-        .catch((error) => console.error("Failed to fetch patient:", error));
+        .catch((error) => console.error("Failed to fetch patient: ", error));
     }
-  }, [id]);
+  }, []);
 
   if (!patient) return <div>Loading...</div>;
 
   return (
     <div>
-      <h2>
+      <h1>
         {patient.name}{" "}
         {patient.gender === "female" ? (
           <FemaleIcon />
@@ -32,9 +33,14 @@ const PatientInfo = () => {
         ) : (
           <TransgenderIcon />
         )}
-      </h2>
+      </h1>
       <p>ssn: {patient.ssn}</p>
       <p>occupation: {patient.occupation}</p>
+      <h2>Entries</h2>
+      {patient.entries &&
+        patient.entries.map((entry, index) => (
+          <EntryDetails key={index} entry={entry} />
+        ))}
     </div>
   );
 };

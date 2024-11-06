@@ -1,6 +1,6 @@
 import express from "express";
 import path from "path";
-import diagnoseRouter from "./routes/diagnoses";
+import diagnoseRouter from "./routes/diagnosis";
 import patientRouter from "./routes/patients";
 import cors from "cors";
 
@@ -19,7 +19,7 @@ app.get("/ping", (_req, res) => {
   res.send("pong");
 });
 
-app.use("/api/diagnoses", diagnoseRouter);
+app.use("/api/diagnosis", diagnoseRouter);
 app.use("/api/patients", patientRouter);
 
 app.get("*", (_req, res) => {
