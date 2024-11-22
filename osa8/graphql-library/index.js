@@ -85,19 +85,19 @@ const resolvers = {
     authorCount: async () => await Author.collection.countDocuments(),
 
     allBooks: async (root, args) => {
-      const filter = {};
-
-      if (args.author) {
-        const author = await Author.findOne({ name: args.author });
-        if (author) {
-          filter.author = author._id;
+      try {
+        const filter = {};
+        if (args.genre && args.genre !== "all") {
+          filter.genres = args.genre;
+          console.log("genre passed: ", args.genre);
         }
+        console.log("Filter: ", filter);
+        return await Book.find(filter).populate("author");
+      } catch (error) {
+        throw new UserInputError(error.message, {
+          invalidArgs: args,
+        });
       }
-      if (args.genre) {
-        filter.genres = args.genre;
-      }
-
-      return await Book.find(filter).populate("author");
     },
 
     allAuthors: async () => await Author.find({}),
@@ -172,9 +172,20 @@ const resolvers = {
     },
 
     createUser: async (root, args) => {
-      const user = new User({ username: args.username });
+      if (!args.favoriteGenre) {
+        throw new GraphQLError("favoriteGenre is required", {
+          extensions: {
+            code: "BAD_USER_INPUT",
+          },
+        });
+      }
 
-      return user.save().catch((error) => {
+      const user = new User({
+        username: args.username,
+        favoriteGenre: args.favoriteGenre,
+      });
+
+      return await user.save().catch((error) => {
         throw new GraphQLError("Creating the user failed", {
           extensions: {
             code: "BAD_USER_INPUT",
@@ -220,9 +231,7 @@ startStandaloneServer(server, {
         auth.substring(7),
         process.env.JWT_SECRET
       );
-      const currentUser = await User.findById(decodedToken.id).populate(
-        "favouriteGenre"
-      );
+      const currentUser = await User.findById(decodedToken.id);
       return { currentUser };
     }
   },
